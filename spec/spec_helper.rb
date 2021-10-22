@@ -1,4 +1,6 @@
 require "bundler/setup"
+require "byebug"
+require "active_record"
 require "prioritize"
 
 RSpec.configure do |config|
