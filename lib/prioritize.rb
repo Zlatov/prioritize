@@ -11,11 +11,6 @@ module Prioritize
     def prioritize_column
       self.include PriorityAfter
     end
-    def self.extended base
-      # base.class_eval do
-      #   @class_variable = 'init value'
-      # end
-    end
   end
 
   module PriorityAfter
@@ -36,7 +31,7 @@ module Prioritize
                 (
                   SELECT o.*
                   FROM #{table_name} o
-                  LEFT JOIN #{table_name} ai ON ai.id = :after_item
+                  LEFT JOIN #{table_name} ai ON ai.id = $1
                   WHERE
                     (o.#{priority_column} < ai.#{priority_column} OR ai.#{priority_column} IS NULL) AND
                     o.id <> $2
@@ -67,6 +62,9 @@ module Prioritize
         )
       end
       attr_accessor :priority_column
+      def priority_column
+        @priority_column.to_s
+      end
       def self.extended base
         base.class_eval do
           @priority_column = :priority
