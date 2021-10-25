@@ -17,7 +17,8 @@ module Prioritize
     def self.included base
       base.extend ClassMethods
     end
-    def priority_after
+    def priority_after before_id
+      self.class.priority_after before_id, self.id
     end
     module ClassMethods
       def priority_after before_id, moved_id
