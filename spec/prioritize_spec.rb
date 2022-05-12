@@ -33,7 +33,7 @@ RSpec.describe Prioritize do
   context "После вызова расширяющего метода в классе:" do
     let!(:ar_class) do
       class PostSection
-        prioritize_column
+        prioritize_column(:order)
       end
     end
 
