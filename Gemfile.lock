@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    prioritize (1.0.0)
+    prioritize (1.1.0)
 
 GEM
   remote: https://rubygems.org/
