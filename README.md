@@ -8,9 +8,9 @@ __Select language README.md__
 -   en [English](README.md)
 -   ru [Русский](README-ru.md)
 
-__Important!__ Only works with PostgreSQL databases. Updating data occurs in 1
-  request, So far there is no "ActiveRecord" algorithm, like: select data ->
-  sort-transform data -> save. Only SQL, only hardcore.
+__Important!__ Works only with PostgreSQL and SQLite databases. In PostgreSQL, data
+is updated in 1 query, in SQLite, the "ActiveRecord" algorithm is used
+(select data -> iterate-transform -> save)
 
 _Prioritize_ adds the following features:
 
