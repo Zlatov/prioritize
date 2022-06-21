@@ -138,7 +138,7 @@ module Prioritize
           list.unshift(moved)
         else
           list.each_with_index do |model, index|
-            if model.id == prev_id
+            if model.id.to_s == prev_id
               list.insert(index + 1, moved)
               break
             end
