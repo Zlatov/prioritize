@@ -68,11 +68,15 @@ module Prioritize
     # подмодуле.
     module ClassMethods
       def priority_after(prev_id, moved_id)
-        connection.exec_query(
-          priority_sql,
-          'priority_after',
-          [[nil, prev_id], [nil, moved_id]]
-        )
+        if connection.adapter_name == 'SQLite'
+          priority_sqlite(prev_id, moved_id)
+        else
+          connection.exec_query(
+            priority_sql,
+            'priority_after',
+            [[nil, prev_id], [nil, moved_id]]
+          )
+        end
       end
 
       def priority_sql
@@ -125,6 +129,26 @@ module Prioritize
           ''
         sql.gsub! 'nested_condition', nested_condition
         sql
+      end
+
+      def priority_sqlite(prev_id, moved_id)
+        list = select('id', "#{priority_column}").order("#{priority_column}" => :asc).where.not(id: moved_id).to_a
+        moved = select('id', "#{priority_column}").find_by_id(moved_id)
+        if prev_id.nil?
+          list.unshift(moved)
+        else
+          list.each_with_index do |model, index|
+            if model.id == prev_id
+              list.insert(index + 1, moved)
+              break
+            end
+          end
+        end
+        transaction do
+          list.each_with_index do |model, index|
+            model.update("#{priority_column}" => index)
+          end
+        end
       end
 
       # def priority_column
