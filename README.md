@@ -32,7 +32,7 @@ to the beginning), then the behavior will work and the values of the
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'prioritize', '~> 1.0'
+gem 'prioritize', '~> 1.1'
 ```
 
 And then execute:
